@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Struk Pembayaran By Rovino Ramadhani</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/all.css">
+</head>
+<body class="bg-light">
+    <div class="container card mx-auto mt-5 p-4 mb-4 print-none">
+        <div class="w-100 d-flex justify-content-between align-items-center">
+            <h4 class="mb-0 mt-0 text-primary fw-bold">Buat Struk Pembayaran</h4>
+            <span class="mb-0 mt-0">By Rovino</span>
+        </div>
+        <hr class="opacity-20">
+        <div class="row">
+            <div class="col-md-6 p-2">
+                <label for="kodeBlnj" class="mb-1 text-primary">Buat Kode Belanja</label>
+                <input type="text" class="form-control" name="kodeBlnj" id="kodeBlnj" autocomplete="OFF" require placeholder="Masukan Kode">
+            </div>
+            <div class="col-md-6 p-2">
+                <label for="tanggalBlj" class="mb-1 text-primary">Pilih tanggal & Waktu</label>
+                <input type="datetime-local" class="form-control" name="tanggalBlj" id="tanggalBlj" autocomplete="OFF" required>
+            </div>
+        </div>
+        <div class="w-100 d-flex justify-content-end align-items-center mt-3">
+            <button class="btn btn-primary" onclick="add_tabel()">Tambah Tabel</button>
+            <button class="btn btn-primary ms-2" onclick="aksion('boxProduk','d-none');produk();">Tambah Tabel Barang</button>
+            <button class="btn btn-danger ms-2 " id="hapusTbl" onclick="location.reload()">Hapus Semua</button>
+        </div>
+        <h3 class="text-center my-5 text-muted" id="nms99">Buruan Buat / Tambahkan Tabel</h3>
+        <table class="table table-sm table-bordered w-100 mt-3 visually-hidden" id="ams">
+            <tbody id="tabm">
+                <tr>
+                    <th class="p-1">No</th>
+                    <th class="p-1">Nama Barang</th>
+                    <th class="p-1">Harga Barang</th>
+                    <th class="p-1">Jumlah Barang</th>
+                    <th class="p-1">Total</th>
+                </tr>
+            </tbody>
+            <tr>
+                <td colspan="4" class="text-end py-2 pe-3 fw-bold">Total</td>
+                <td id="keseluruhan" class="py-2">Rp 0,00</td>
+                <td class="visually-hidden" id="kslrh"></td>
+            </tr>
+            <tr>
+                <td colspan="4" class="text-end py-2 pe-3 fw-bold">Tambahkan Diskon</td>
+                <td id="keseluruhan" class="py-2 d-flex justify-content-center align-items-center"><input type="number" value="0 " class="form-control" min="1" max="100" id="diskon_ck" oninput="cekDiskon()"><span class="ms-2 fw-bold">%</span></td>
+            </tr>
+            <tr>
+                <td colspan="2">Metode Pembayaran</td>
+                <td>
+                    <select name="mpby" id="mpby" class="form-control form-select">
+                        <option value="" selected disabled>Pilih</option>
+                        <option value="Tunai">Bayar Tunai</option>
+                        <option value="Payment">Payment</option>
+                    </select>
+                </td>
+                <td><input type="number" class="form-control" placeholder="Jumlah Uang"  id="JumByr1" oninput="cekJumlahuang()"></td>
+                <td>
+                    <span class="fw-bold d-block">Total yang harus dibayar</span>
+                    <span id="Ha_show">Rp 0,00</span>
+                    <span id="Ha_hide" class="visually-hidden">Rp 0,00</span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" class="text-end py-2 pe-3 fw-bold">Kembalian</td>
+                <td id="kembalianQwm">-</td>
+            </tr>
+        </table>
+        <div class="w-100 d-flex justify-content-end align-items-center mt-3">
+            <button class="btn btn-success d-none" id="bikin" onclick="buatStruk()">Buat Struk</button>
+        </div>
+    </div>
+    <div class="position-fixed w-100 h-100 top-0 start-0 bottom-0 end-0 bg-black bg-opacity-50 d-flex justify-content-center align-items-center d-none" id="boxProduk" style="z-index: 10;">
+        <div class="container p-5 bg-white rounded-3">
+            <div class="w-100 d-flex justify-content-between align-items-center mb-4">
+                <h4>Gudang Stok</h4>
+                <div class="w-auto h-100 d-flex justify-content-end align-items-center">
+                    <button class="btn btn-primary me-2" onclick="produk();">Reload Produk</button>
+                    <button class="btn btn-danger" onclick="aksion('boxProduk','d-none')">Close</button>
+                </div>
+            </div>
+            <div class="w-100 overflow-auto p-2" style="height: 400px;">
+                <div class="w-100 row p-2" id="produk_tampil"></div>
+            </div>
+        </div>
+    </div>
+    <div class="card container mb-5 d-none" id="boxStruk">
+        <div class="container p-5 bg-white rounded-3 overflow-auto" style="height: 500px;">
+            <div class="w-100 d-flex justify-content-between align-items-center mb-4 print-none">
+                <h4>Cetak Struk</h4>
+            </div>
+            <div class="w-50 mx-auto d-flex justify-content-center align-items-center print-none">
+                <button class="w-50 btn btn-primary" onclick="window.print()">Print</button>
+                <button class="w-50 ms-3 btn btn-warning" onclick="aksion('boxProduk_img','d-none')">Gambar</button>
+            </div>
+            <div class="mx-auto card p-5 text-black-50 mt-5 aPPPma" id="capture" style="width: 500px;">
+                <img src="Artboard 2 copy@2x.png" id="icon_usaha" alt="" style="-webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+                filter: grayscale(100%);" width="70px" class="mx-auto d-block mb-2">
+                <span class="text-center text-black-50 h5 fw-bold mb-0" id="nama_toko"></span>
+                <span  class="text-center text-black-50 mt-0 d-block" id="jalan_raya"></span>
+                <ul class="list-unstyled mt-2">
+                    <li class="w-100 d-flex justify-content-between align-items-center mb-2"><span style="flex: 1;">Tanggal : <span id="tglStruk"></span></span><span style="flex: 1;" class="text-end">Kode Belanja : <span id="kodeStruk"></span></span></li>
+                </ul>
+                <ul class="list-unstyled mt-1">
+                    <li class="w-100 d-flex justify-content-between align-items-center mb-2"><span class="fw-bold">Nama Barang</span><span class="fw-bold">Harga</span></li>
+                    <hr class="opacity-25 my-2">
+                    <div id="data_struk">
+                    </div>
+                    <hr class="w-25 float-end opacity-25 my-2">
+                    <li class="w-100 d-flex justify-content-between align-items-center mb-2"><span class="text-end pe-3 fw-bold" style="flex: 1;">Total:</span><span class="text-end w-auto" id="total_pembayaran_struk">Rp 20.000</span></li>
+                    <li class="w-100 d-flex justify-content-between align-items-center mb-2"><span class="text-end pe-3 fw-bold" style="flex: 1;">Diskon :</span><span class="text-end w-auto" id="diskon_struk">20%</span></li>
+                    <li class="w-100 d-flex justify-content-between align-items-center mb-2"><span class="text-end pe-3 fw-bold" style="flex: 1;">Total Pembayaran :</span><span class="text-end w-auto" id="total_semua">Rp 20.000</span></li>
+                    <hr class="w-75 mx-auto my-3 opacity-25 my-2">
+                    <li class="w-100 d-flex justify-content-around align-items-center">
+                        <div class="w-auto">
+                            <span class="d-block my-0">Metode Pembayaran</span>
+                            <span class="fw-bold" id="metode_struk">Tunai</span>
+                        </div>
+                        <div class="w-auto">
+                            <span class="d-block my-0">Uang</span>
+                            <span class="fw-bold" id="uang_struk">Rp 0,00</span>
+                        </div>
+                        <div class="w-auto">
+                            <span class="d-block my-0">Kembalian</span>
+                            <span class="fw-bold" id="kembali_struk">Rp 50.000</span>
+                        </div>
+                    </li>
+                    <hr class="w-75 mx-auto my-3 opacity-25 my-2 mb-1">
+                </ul>
+                <div class="d-flex justify-content-start align-items-center">
+                    <div id="qrcode" class="me-3" style="width:70px; height:70px;"></div>
+                    <div class="w-100" style="flex: 1;">
+                        <span class="fw-bold lh-1">Dibuat Dengan Website Struk By Rovino Ramadhani</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="position-fixed w-100 h-100 top-0 start-0 bottom-0 end-0 bg-black bg-opacity-50 d-flex justify-content-center align-items-center d-none" id="boxProduk_img">
+        <div class="container p-5 bg-white rounded-3 w-50 overflow-auto">
+            <div class="w-100 d-flex justify-content-between align-items-center mb-4 print-none">
+                <h4>Cetak Struk Berbentuk Img</h4>
+                <div class="w-auto h-100 d-flex justify-content-end align-items-center">
+                    <button class="btn btn-danger" onclick="aksion('boxProduk_img','d-none')">Close</button>
+                </div>
+            </div>
+            <p>Silahkan Klik Tombol Di Bawah Ini Dan Tunggu Sampai Selesai</p>
+            <button class="w-100 btn btn-primary" id="downloadImgBtn">Download Sekarang</button><a id="downloadImg"></a>
+        </div>
+    </div>
+    <div id="buatImg" class="visually-hidden"></div>
+    <style>
+        #qrcode img{
+            -webkit-filter: grayscale(100%) !important; /* Safari 6.0 - 9.0 */
+            filter: grayscale(100%) !important;
+        }
+        #buatImg canvas{width: 100% !important;}
+    </style>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/qrcode.js"></script>
+    <script src="js/html2canvas.min.js"></script>
+    <script src="js/index.js"></script>
+    <script>
+    </script>
+</body>
+</html>

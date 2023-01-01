@@ -1,0 +1,27 @@
+[
+    {
+        "nama_produk" : "Gula",
+        "harga_produk" : 14500,
+        "img" : "gulaku.webp"
+    },
+    {
+        "nama_produk" : "Beras",
+        "harga_produk" : 14525,
+        "img" : "berasWangi.webp"
+    },
+    {
+        "nama_produk" : "Minyak Goreng",
+        "harga_produk" : 14000 ,
+        "img" :"minyak.webp"
+    } ,
+    {
+        "nama_produk" : "Aqua",
+        "harga_produk" : 5000 ,
+        "img" :"aqua.webp"
+    },
+    {
+        "nama_produk" : "Galon Aqua",
+        "harga_produk" : 5000 ,
+        "img" :"aqua.webp"
+    }
+]

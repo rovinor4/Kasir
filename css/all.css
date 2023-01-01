@@ -1,0 +1,25 @@
+/* Follow Rovino Ramadhani */
+/* ©Copyright 2021 - Rovino Ramadhani */
+* input::-webkit-outer-spin-button,* input::-webkit-inner-spin-button {-webkit-appearance: none !important;margin: 0 !important;} * input[type=number] {-moz-appearance:textfield !important;} .svg-cover svg{width: 100%;vertical-align: unset;height: 100%;}
+@media only screen and (max-width: 500px) {div.shadow.p-5.mx-auto.my-5.card{width: 90% !important;}div.shadow.p-5.mx-auto.my-5.card div.w-100.p-2.px-5{padding: 0px !important;}}
+* img{object-fit: cover;object-position: center;}
+
+@media print {
+    .print-none{display: none !important;}
+    * div{height: max-content !important;}
+    *{background-color: white;}
+    .aPPPma{width: 100% !important;height: 100%!important;padding: 30px !important;}
+    #boxStruk{padding: 0px !important;width: 100% !important;height: 100% !important;}
+    .card{border: none !important;}
+    * span{font-size: 13px;}
+}
+@media only print and (max-width: 500px) {
+    *{background-color: white;}
+    *.h5{font-size: 20px;}
+    img.d-block{display: none !important;}
+    #boxStruk{margin-top: 0px !important;}
+    .aPPPma{padding: 0px !important; width: 100% !important;margin-top: 0% !important;}
+}
+@page{
+    padding: 0px !important;
+}
